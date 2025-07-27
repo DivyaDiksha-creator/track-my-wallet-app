@@ -16,15 +16,14 @@ import { Subject, Subscription } from 'rxjs';
 })
 export class CurrencyConverterComponent implements OnInit, OnDestroy {
   amount: number = 1;
-  fromCurrency: string = 'USD';
+  fromCurrency: string = 'INR';
   toCurrency: string = 'GBP';
   convertedAmount: number | null = null;
   exchangeRate: number | null = null;
   isLoading: boolean = false;
   error: string | null = null;
 
-  // Hardcoded default currencies for initial display if API fails
-  supportedCurrencies: string[] = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'SEK', 'NZD'];
+  supportedCurrencies: string[] = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'SEK', 'NZD', 'MXN', 'SGD', 'HKD', 'NOK', 'KRW', 'TRY', 'RUB', 'INR', 'BRL', 'ZAR'];
 
   private amountChanged: Subject<number> = new Subject<number>();
   private fromCurrencyChanged: Subject<string> = new Subject<string>();
@@ -34,8 +33,8 @@ export class CurrencyConverterComponent implements OnInit, OnDestroy {
   constructor(private currencyService: CurrencyService) { }
 
   ngOnInit(): void {
-    this.loadSupportedCurrencies(); // Attempt to load from API
-    this.initializeCurrencySelection(); // Ensure initial currencies are set
+    this.loadSupportedCurrencies(); 
+    this.initializeCurrencySelection(); 
 
     this.subscriptions.push(
       this.amountChanged.pipe(
