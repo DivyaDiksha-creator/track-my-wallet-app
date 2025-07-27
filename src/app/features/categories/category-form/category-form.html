@@ -1,0 +1,22 @@
+<div class="category-form-container app-card"> <h2 class="text-center">{{ isEditing ? 'Edit Category' : 'Add New Category' }}</h2>
+
+  <div *ngIf="isLoading" class="loading-message text-center">Loading category...</div>
+  <div *ngIf="errorMessage" class="error-message mt-md text-center">{{ errorMessage }}</div>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+    <div class="form-group">
+      <label for="name">Category Name</label>
+      <input type="text" id="name" formControlName="name" placeholder="Enter category name" required>
+      <div *ngIf="categoryForm.get('name')?.invalid && (categoryForm.get('name')?.dirty || categoryForm.get('name')?.touched)" class="error-message-inline">
+        <div *ngIf="categoryForm.get('name')?.errors?.['required']">Category Name is required.</div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-cancel" (click)="onCancel()" [disabled]="isLoading">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid || isLoading">
+        {{ isLoading ? 'Saving...' : (isEditing ? 'Update Category' : 'Add Category') }}
+      </button>
+    </div>
+  </form>
+</div>

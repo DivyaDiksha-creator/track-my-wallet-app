@@ -1,0 +1,67 @@
+@use "sass:color";
+@use '../../../shared/styles/variables' as var;
+@use '../../../shared/styles/mixins' as mixins;
+@use '../../../shared/styles/base';
+
+
+.category-form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: var.$spacing-xl auto;
+  padding: var.$spacing-xl;
+  box-sizing: border-box;
+
+  h2 {
+    margin-bottom: var.$spacing-xl;
+    color: var.$primary-color-dark;
+  }
+}
+
+.form-group {
+  margin-bottom: var.$spacing-lg; // Inherits most styles from base.scss
+
+  label {
+    font-weight: 600;
+    color: var.$text-color-dark;
+    margin-bottom: var.$spacing-sm;
+    display: block;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var.$spacing-md;
+  margin-top: var.$spacing-xl;
+
+  .btn-cancel {
+    background-color: var.$muted-color;
+    color: var.$text-color-light;
+    &:hover {
+      background-color: color.adjust(var.$muted-color, $lightness: -10%);
+    }
+  }
+
+  // .btn-primary {
+  //   // Inherits from base.scss
+  // }
+}
+
+@media (max-width: 768px) {
+  .category-form-container {
+    padding: var.$spacing-lg;
+    margin: var.$spacing-lg auto;
+  }
+
+  h2 {
+    font-size: var.$font-size-xl;
+    margin-bottom: var.$spacing-lg;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    .btn {
+      width: 100%;
+    }
+  }
+}

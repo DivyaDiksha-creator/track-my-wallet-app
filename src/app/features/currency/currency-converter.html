@@ -1,0 +1,78 @@
+<div class="currency-converter-container">
+  <h3><span class="material-icons">currency_exchange</span> Currency Converter</h3>
+
+  <div class="converter-inputs-single-column">
+    <div class="input-group amount-group">
+      <label for="amount">Amount</label>
+      <input
+        id="amount"
+        type="number"
+        min="0"
+        [(ngModel)]="amount"
+        (ngModelChange)="onAmountChange($event)"
+        placeholder="Enter amount"
+        class="form-control"
+      />
+    </div>
+
+    <div class="input-group currency-group">
+      <label for="fromCurrency">From Currency</label>
+      <select
+        id="fromCurrency"
+        [(ngModel)]="fromCurrency"
+        (ngModelChange)="onFromCurrencyChange($event)"
+        class="form-control select-arrow" >
+        <option value="" disabled *ngIf="isLoading && supportedCurrencies.length === 0">Loading currencies...</option>
+        <option *ngFor="let currency of supportedCurrencies" [value]="currency">{{ currency }}</option>
+      </select>
+    </div>
+
+    <div class="input-group swap-button-container">
+      <button class="swap-button" (click)="swapCurrencies()" title="Swap Currencies">
+        <span class="material-icons">sync_alt</span> Swap
+      </button>
+    </div>
+
+    <div class="input-group currency-group">
+      <label for="toCurrency">To Currency</label>
+      <select
+        id="toCurrency"
+        [(ngModel)]="toCurrency"
+        (ngModelChange)="onToCurrencyChange($event)"
+        class="form-control select-arrow" >
+        <option value="" disabled *ngIf="isLoading && supportedCurrencies.length === 0">Loading currencies...</option>
+        <option *ngFor="let currency of supportedCurrencies" [value]="currency">{{ currency }}</option>
+      </select>
+    </div>
+
+    <div class="input-group calculated-amount-group">
+      <label for="calculatedAmount">Converted Amount</label>
+      <input
+        id="calculatedAmount"
+        type="text"
+        [value]="convertedAmount | currency:toCurrency:'symbol':'1.2-2'"
+        readonly
+        class="form-control"
+        placeholder="Calculated amount"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="converter-message loading-message">
+    <span class="material-icons loading-spinner">loop</span> Converting...
+  </div>
+
+  <div *ngIf="error" class="converter-message error-message">
+    <span class="material-icons">error_outline</span> {{ error }}
+  </div>
+
+  <div *ngIf="convertedAmount !== null && !isLoading && !error && exchangeRate" class="conversion-result">
+    <p>
+      <strong class="original-amount">{{ amount | currency:fromCurrency:'symbol':'1.2-2' }}</strong> is approximately
+      <strong class="converted-value">{{ convertedAmount | currency:toCurrency:'symbol':'1.2-2' }}</strong>
+    </p>
+    <p class="exchange-rate-info">
+      (1 {{ fromCurrency }} = {{ exchangeRate | number:'1.4-4' }} {{ toCurrency }})
+    </p>
+  </div>
+</div>

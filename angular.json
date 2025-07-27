@@ -53,7 +53,8 @@
             ],
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -81,6 +82,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "track-my-wallet-app:build:development"
+          },
           "configurations": {
             "production": {
               "buildTarget": "track-my-wallet-app:build:production"
@@ -116,5 +120,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "ba44a2d7-79e3-4f28-9a46-9701dcde4a60"
   }
 }

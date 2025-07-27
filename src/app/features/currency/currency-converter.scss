@@ -1,0 +1,211 @@
+@use '../../shared/styles/variables' as var_scss;
+
+
+.currency-converter-container {
+  padding: var_scss.$spacing-lg;
+  border-radius: var_scss.$border-radius-lg;
+  background-color: var_scss.$surface-color;
+  box-shadow: var_scss.$shadow-md;
+  display: flex;
+  flex-direction: column;
+  gap: var_scss.$spacing-md;
+}
+
+h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var_scss.$spacing-sm;
+  color: var_scss.$primary-color-dark;
+  font-size: var_scss.$font-size-xl;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: var_scss.$spacing-lg;
+
+  .material-icons {
+    font-size: var_scss.$font-size-xxl;
+    color: var_scss.$accent-color;
+  }
+}
+
+.converter-inputs-single-column {
+  display: flex;
+  flex-direction: column;
+  gap: var_scss.$spacing-md;
+  width: 100%;
+
+  .input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var_scss.$spacing-xs; // Spacing between label and input
+
+    label {
+      font-size: var_scss.$font-size-sm;
+      color: var_scss.$text-color-dark;
+      font-weight: 500;
+      margin-bottom: var_scss.$spacing-xxs;
+      display: block; // Ensures label takes its own line above the input
+    }
+  }
+
+  .swap-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: var_scss.$spacing-sm; // Add some space above the swap button
+    margin-bottom: var_scss.$spacing-sm; // Add some space below the swap button
+
+    .swap-button {
+      width: auto;
+      min-width: 120px;
+      height: 40px;
+      align-self: center;
+      margin: 0;
+      display: flex;
+      align-items: center; // Align icon and text vertically
+      justify-content: center; // Center content horizontally
+      gap: var_scss.$spacing-xs;
+      background: none;
+      border: 1px solid var_scss.$border-color;
+      border-radius: var_scss.$border-radius-md;
+      color: var_scss.$muted-color;
+      cursor: pointer;
+      padding: var_scss.$spacing-sm var_scss.$spacing-md;
+      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: var_scss.$primary-color-light;
+        color: var_scss.$text-color-light;
+        border-color: var_scss.$primary-color;
+      }
+
+      .material-icons {
+        font-size: var_scss.$font-size-xl;
+      }
+    }
+  }
+
+  .form-control {
+    width: 100%;
+    padding: var_scss.$spacing-sm var_scss.$spacing-md;
+    border: 1px solid var_scss.$input-border-color;
+    border-radius: var_scss.$border-radius-sm;
+    font-size: var_scss.$font-size-base;
+    color: var_scss.$text-color-dark;
+    background-color: var_scss.$input-bg-color;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-sizing: border-box; // Crucial for consistent sizing
+
+    // Remove default arrow for number inputs
+    &[type='number'] {
+        -moz-appearance: textfield; // Firefox
+    }
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none; // Webkit
+        margin: 0;
+    }
+
+    // Custom arrow for selects
+    &.select-arrow {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right var_scss.$spacing-sm center;
+        background-size: var_scss.$font-size-md;
+        padding-right: var_scss.$spacing-xl; // Add padding for the custom arrow
+    }
+
+    &:focus {
+      border-color: var_scss.$input-focus-border-color;
+      box-shadow: 0 0 0 2px rgba(var_scss.$primary-color, 0.2);
+      outline: none;
+    }
+  }
+}
+
+.converter-message {
+  text-align: center;
+  margin-top: var_scss.$spacing-md;
+  font-size: var_scss.$font-size-base;
+  color: var_scss.$muted-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var_scss.$spacing-xs;
+
+  &.loading-message {
+    color: var_scss.$primary-color;
+  }
+
+  &.error-message {
+    color: var_scss.$danger-color;
+    font-weight: 500;
+    background-color: rgba(var_scss.$danger-color, 0.1);
+    padding: var_scss.$spacing-xs var_scss.$spacing-md;
+    border-radius: var_scss.$border-radius-sm;
+    border: 1px solid var_scss.$danger-color;
+  }
+
+  .loading-spinner {
+    animation: spin 1s linear infinite;
+  }
+}
+
+.conversion-result {
+  text-align: center;
+  margin-top: var_scss.$spacing-md;
+  padding: var_scss.$spacing-md;
+  background-color: var_scss.$background-color;
+  border-radius: var_scss.$border-radius-md;
+  width: 100%;
+
+  p {
+    margin: 0;
+    font-size: var_scss.$font-size-lg;
+    color: var_scss.$text-color-dark;
+  }
+
+  strong {
+    color: var_scss.$primary-color-dark;
+    font-weight: 600;
+  }
+
+  .exchange-rate-info {
+    font-size: var_scss.$font-size-sm;
+    color: var_scss.$muted-color;
+    margin-top: var_scss.$spacing-xs;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 767px) {
+  .converter-inputs-single-column {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var_scss.$spacing-md;
+
+    .input-group {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  .converter-message {
+    font-size: var_scss.$font-size-sm;
+  }
+
+  .conversion-result {
+    padding: var_scss.$spacing-sm;
+    p {
+      font-size: var_scss.$font-size-base;
+    }
+  }
+}

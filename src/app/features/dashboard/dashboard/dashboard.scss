@@ -1,0 +1,450 @@
+@use "sass:color";
+@use '../../../shared/styles/variables' as var;
+@use '../../../shared/styles/mixins' as mixins;
+@use '../../../shared/styles/base';
+@use '../../../shared/styles/variables' as var_scss;
+
+// Define a palette of colors using SCSS variables for easy customization
+$primary-blue: #4b8f3d; // A vibrant blue
+$secondary-gray: #edf2f7; // A light gray
+$text-dark: #2d3748; // Dark gray for main text
+$text-medium: #4a5568; // Medium gray for secondary text
+$text-light: #718096; // Light gray for subtle text
+$background-light: #f7fafc; // Very light background
+$card-background: #ffffff; // White for cards
+$border-light: #e2e8f0; // Light border
+$success-green: #48bb78; // Green for success
+$error-red: #ef4444; // Red for errors
+$over-budget-red: #e53e3e; // Slightly darker red for over budget
+$info-blue: #bee3f8; // Light blue for info messages
+
+/* Base styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: $background-light;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.app-card {
+    background-color: $card-background;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: all 0.3s ease-in-out;
+    width: -webkit-fill-available;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: var_scss.$spacing-xl;
+  background-color: var_scss.$background-color;
+  width: 100%; 
+  min-height: 100vh; 
+}
+
+.main-dashboard-content {
+    h1 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 0.75rem;
+    }
+}
+
+.intro-text {
+    font-size: 1.125rem;
+    color: $text-medium;
+    margin-bottom: 0.5rem;
+}
+
+.highlight-text {
+    color: $primary-blue;
+    font-weight: 600;
+}
+
+.dashboard-actions.top-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+
+    &-primary {
+        background-color: $primary-blue;
+        color: $card-background;
+        &:hover {
+            background-color: color.adjust($primary-blue, $lightness: -10%);
+            transform: translateY(-1px);
+        }
+    }
+
+    &-secondary {
+        background-color: $secondary-gray;
+        color: $text-dark;
+        &:hover {
+            background-color: color.adjust($secondary-gray, $lightness: -5%);
+            transform: translateY(-1px);
+        }
+    }
+
+    &[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    &-cancel {
+        background-color: $error-red;
+        color: $card-background;
+        &:hover {
+            background-color: color.adjust($error-red, $lightness: -10%);
+        }
+    }
+}
+
+/* Budget Progress Section */
+.budget-progress-section {
+    .app-card { // Inlined app-card styles
+        background-color: $card-background;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        padding: 1.5rem;
+        transition: all 0.3s ease-in-out;
+    }
+    .clickable-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.125rem;
+        cursor: pointer;
+        user-select: none;
+        padding: 0.75rem 1rem;
+        background-color: $secondary-gray;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 1rem;
+    }
+
+    .toggle-icon {
+        font-size: 1.125rem;
+        transition: transform 0.3s ease;
+    }
+
+    .budget-details-content {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .progress-bar-container {
+        position: relative;
+        width: 100%;
+        height: 0.625rem;
+        background-color: color.adjust($primary-blue, $lightness: 30%); // Lighter shade of primary blue
+        border-radius: 0.375rem;
+        overflow: hidden;
+        margin-top: 1rem;
+
+        .progress-bar-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: $success-green;
+            border-radius: 0.375rem;
+            position: relative;
+            transition: width 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+
+            &.over-budget {
+                background-color: $over-budget-red;
+            }
+
+            .progress-text {
+                color: $card-background;
+                font-weight: 700;
+                font-size: 0.875rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                position: absolute;
+                right: 0.5rem;
+            }
+
+            /* Adjust progress-text position for very small bars */
+            &[style*="width: 0%"] .progress-text,
+            &[style*="width: 1%"] .progress-text,
+            &[style*="width: 2%"] .progress-text,
+            &[style*="width: 3%"] .progress-text,
+            &[style*="width: 4%"] .progress-text,
+            &[style*="width: 5%"] .progress-text,
+            &[style*="width: 6%"] .progress-text,
+            &[style*="width: 7%"] .progress-text,
+            &[style*="width: 8%"] .progress-text,
+            &[style*="width: 9%"] .progress-text,
+            &[style*="width: 10%"] .progress-text {
+                left: 50%;
+                transform: translateX(-50%);
+                color: $text-medium;
+            }
+        }
+    }
+
+    .no-limit-message,
+    .over-budget-message {
+        margin-top: 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $error-red;
+        text-align: center;
+    }
+
+    .over-budget-message {
+        color: $over-budget-red;
+    }
+}
+
+/* Summary Cards Grid */
+.summary-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background-color: $card-background; // Inlined app-card styles
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1.25rem;
+    text-align: center;
+
+    h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: $text-medium;
+        margin-bottom: 0.75rem;
+    }
+
+    p {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: $text-dark;
+    }
+
+    .no-limit {
+        color: $text-light;
+        font-size: 1.25rem;
+    }
+
+    .overspent {
+        color: $over-budget-red;
+    }
+}
+
+/* Category Breakdown Section */
+.category-breakdown-section {
+    background-color: $card-background; // Inlined app-card styles
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: all 0.3s ease-in-out;
+    margin-top: 2rem;
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    th,
+    td {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid $border-light;
+    }
+
+    th {
+        background-color: $background-light;
+        font-weight: 600;
+        color: $text-medium;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+    }
+
+    tbody {
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover {
+            background-color: color.adjust($background-light, $lightness: -2%);
+        }
+    }
+}
+.table-header{
+    background-color:#4b8f3d;
+    font-weight: 600;
+    color: $text-dark;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.no-data-message {
+    text-align: center;
+    color: $text-light;
+    padding: 1.5rem;
+    font-style: italic;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: $card-background; // Inlined app-card styles
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    transition: all 0.3s ease-in-out;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+
+    h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+
+    label {
+        display: block;
+        font-size: 1rem;
+        font-weight: 600;
+        color: $text-medium;
+        margin-bottom: 0.5rem;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid $border-light;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        color: $text-dark;
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-blue;
+            box-shadow: 0 0 0 3px rgba($primary-blue, 0.3);
+        }
+    }
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.loading-message, .error-message, .success-message {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+}
+
+.loading-message {
+    background-color: $info-blue;
+    color: $primary-blue;
+}
+
+.error-message {
+    background-color: color.adjust($error-red, $lightness: 30%); // Lighter red
+    color: $error-red;
+}
+
+.success-message {
+    background-color: color.adjust($success-green, $lightness: 30%); // Lighter green
+    color: $success-green;
+}
+
+/* Quote specific styles */
+.quote-display {
+    background-color: $info-blue; // Using info blue for quote background
+    border-left: 5px solid $primary-blue; // Using primary blue for quote border
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 0.75rem; // Inlined app-card border-radius
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); // Inlined app-card shadow
+    transition: all 0.3s ease-in-out; // Inlined app-card transition
+    font-style: italic;
+    color: $text-dark;
+    text-align: center;
+    font-size: 1.125rem;
+    line-height: 1.6;
+
+    .quote-text {
+        margin-bottom: 0.5rem;
+    }
+
+    .quote-author {
+        font-weight: 600;
+        color: $text-medium;
+    }
+}

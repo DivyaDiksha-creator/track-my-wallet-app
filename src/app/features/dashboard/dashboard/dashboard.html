@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../../../shared/common.scss"> -->
+    <title>Budget Usage Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <main class="dashboard-container">
+        <div class="app-card">
+            <h1>{{ welcomeMessage }}</h1>
+            <p class="intro-text">
+                Welcome to your personal wallet tracker. <span class="highlight-text">Your financial overview, simplified.</span>
+            </p>
+            <p class="intro-text">This is your dashboard. More features coming soon!</p>
+
+            <div class="dashboard-actions top-actions">
+                <button class="btn btn-secondary" (click)="openSetLimitModal()">Set Monthly Limit</button>
+                <button class="btn btn-secondary" (click)="goToExpenses()">Manage Expenses</button>
+                <button class="btn btn-secondary" (click)="goToCategories()">Manage Categories</button>
+            </div>
+
+            <div id="quoteDisplay" class="quote-display">
+              <app-quote-display></app-quote-display>
+            </div>
+
+            <!-- Budget Progress Section -->
+            <div class="budget-progress-section app-card">
+                <h2 (click)="toggleBudgetDetails()" class="clickable-header">
+                    Budget Usage
+                    <span class="toggle-icon">{{ showBudgetDetails ? '▲' : '▼' }}</span>
+                </h2>
+
+                <div *ngIf="showBudgetDetails" class="budget-details-content">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar" 
+                                 [style.width.%]="budgetUsagePercentage" 
+                                 [class.over-budget]="budgetUsagePercentage > 100">
+                                <span class="progress-text">{{ budgetUsagePercentage | number:'1.0-0' }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p *ngIf="showNoLimitMessage" class="no-limit-message">
+                        Set a monthly limit to track your budget progress!
+                    </p>
+                    
+                    <p *ngIf="showOverBudgetMessage" class="over-budget-message">
+                        You are over your monthly budget!
+                    </p>
+                </div>
+            </div>
+
+            <div *ngIf="isLoadingSummary" class="loading-message">Loading summary...</div>
+            <div *ngIf="summaryError" class="error-message">{{ summaryError }}</div>
+
+            <div *ngIf="dashboardSummary && !isLoadingSummary">
+                <div class="summary-cards-grid">
+                    <div class="card total-expense">
+                        <h2>Total Expenses (This Month)</h2>
+                        <p>{{ dashboardSummary.totalExpense | currency:'GBP':'symbol':'1.2-2' }}</p>
+                    </div>
+
+                    <div class="card monthly-limit">
+                        <h2>Monthly Spending Limit</h2>
+                        <p *ngIf="currentMonthlyLimit?.limitAmount !== undefined && currentMonthlyLimit?.limitAmount !== null && currentMonthlyLimit?.limitAmount !== 0">
+                            {{ currentMonthlyLimit?.limitAmount | currency:'GBP':'symbol':'1.2-2' }}
+                        </p>
+                        <p *ngIf="currentMonthlyLimit?.limitAmount === undefined || currentMonthlyLimit?.limitAmount === null || currentMonthlyLimit?.limitAmount === 0" class="no-limit">
+                            Not Set
+                        </p>
+                    </div>
+
+                    <div class="card remaining-budget">
+                        <h2>Remaining Budget</h2>
+                        <p *ngIf="dashboardSummary.remainingBudget !== undefined && dashboardSummary.remainingBudget !== null && currentMonthlyLimit?.limitAmount !== 0"
+                           [class.overspent]="dashboardSummary.remainingBudget < 0">
+                            {{ dashboardSummary.remainingBudget | currency:'GBP':'symbol':'1.2-2' }}
+                        </p>
+                        <p *ngIf="dashboardSummary.remainingBudget === undefined || dashboardSummary.remainingBudget === null || currentMonthlyLimit?.limitAmount === 0" class="no-limit">
+                            Not Set
+                        </p>
+                    </div>
+                </div>
+
+                <div class="category-breakdown-section">
+                    <h2>Expenses by Category</h2>
+                    <div *ngIf="dashboardSummary.categoryExpenses.length > 0; else noCategories">
+                        <table class="data-table">
+                            <thead class="table-header">
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let category of dashboardSummary.categoryExpenses">
+                                    <td>{{ category.categoryName }}</td>
+                                    <td>{{ category.totalAmount | currency:'GBP':'symbol':'1.2-2' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ng-template #noCategories>
+                        <p class="no-data-message">No expenses recorded for any category in this period.</p>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Set Monthly Spending Limit -->
+        <div *ngIf="showSetLimitModal" class="modal-overlay">
+            <div class="modal-content app-card">
+                <h2>Set Monthly Spending Limit</h2>
+                <p class="success-message" *ngIf="setLimitSuccess">{{ setLimitSuccess }}</p>
+                <p class="error-message" *ngIf="setLimitError">{{ setLimitError }}</p>
+
+                <form (ngSubmit)="saveSpendingLimit()">
+                    <div class="form-group">
+                        <label for="limitAmount">Limit Amount (GBP):</label>
+                        <input
+                            type="number"
+                            id="limitAmount"
+                            name="limitAmount"
+                            [(ngModel)]="newLimitAmount"
+                            required
+                            min="0"
+                            step="0.01"
+                            placeholder="e.g., 500.00"
+                        />
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary" [disabled]="isSettingLimit || newLimitAmount === null || newLimitAmount < 0">
+                            {{ isSettingLimit ? 'Saving...' : 'Save Limit' }}
+                        </button>
+                        <button type="button" class="btn btn-cancel" (click)="closeSetLimitModal()" [disabled]="isSettingLimit">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

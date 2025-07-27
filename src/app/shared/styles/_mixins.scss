@@ -1,0 +1,30 @@
+@use 'variables' as var;
+
+@mixin font-feature-settings($value) {
+  -webkit-font-feature-settings: $value;
+  -moz-font-feature-settings: $value;
+  font-feature-settings: $value;
+}
+
+@mixin button-effects {
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.1s ease-out;
+  &:hover:not(:disabled) {
+    box-shadow: var.$shadow-sm;
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(50%);
+  }
+}
+
+@mixin card-hover-effect {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var.$shadow-lg;
+  }
+}

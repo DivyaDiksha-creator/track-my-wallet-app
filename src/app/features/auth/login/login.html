@@ -1,0 +1,45 @@
+<div class="auth-page-container">
+  <div class="auth-welcome-section bg-gradient-primary">
+    <div class="welcome-content">
+      <h1>Track Your Financial Journey</h1>
+      <p class="quote">"Financial peace isn't about having it all. It's about being content with what you have and responsible with what you do."</p>
+      <p class="author">- Dave Ramsey</p>
+      <div class="logo-placeholder">
+        <span class="material-icons">account_balance_wallet</span> <span class="logo-text">wallet</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-section">
+    <div class="auth-card app-card"> <h2 class="text-center mb-lg">Welcome Back!</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="usernameOrEmail">Username or Email</label>
+          <input type="text" id="usernameOrEmail" formControlName="usernameOrEmail" placeholder="Enter your username or email" required>
+          <div *ngIf="loginForm.get('usernameOrEmail')?.invalid && (loginForm.get('usernameOrEmail')?.dirty || loginForm.get('usernameOrEmail')?.touched)" class="error-message-inline">
+            <div *ngIf="loginForm.get('usernameOrEmail')?.errors?.['required']">Username or Email is required.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password" placeholder="Enter your password" required>
+          <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="error-message-inline">
+            <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-lg" [disabled]="loginForm.invalid || isLoading"> {{ isLoading ? 'Logging in...' : 'Login' }}
+        </button>
+      </form>
+
+      <p class="link-text text-center mt-lg">
+        Don't have an account? <a routerLink="/register">Register here</a>
+      </p>
+
+      <div *ngIf="errorMessage" class="error-message mt-md"> {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>

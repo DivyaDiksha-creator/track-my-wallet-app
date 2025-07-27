@@ -1,0 +1,89 @@
+@use "sass:color";
+@use '../../../shared/styles/variables' as var;
+@use '../../../shared/styles/mixins' as mixins;
+@use '../../../shared/styles/base';
+
+.expense-form-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var.$spacing-xl;
+  min-height: calc(100vh - var.$spacing-xxl * 2); // Adjust based on navbar height
+  box-sizing: border-box;
+}
+
+.expense-form-card {
+  width: 100%;
+  max-width: 600px;
+  h2 {
+    text-align: center;
+    margin-bottom: var.$spacing-xl;
+    color: var.$primary-color-dark;
+    font-size: var.$font-size-xxl;
+  }
+}
+
+.expense-form {
+  .form-group {
+    margin-bottom: var.$spacing-lg; // Inherits most styles from base.scss
+
+    label {
+      font-weight: 600;
+      color: var.$text-color-dark;
+      margin-bottom: var.$spacing-sm;
+      display: block;
+    }
+
+    .required {
+      color: var.$danger-color;
+      margin-left: var.$spacing-xs;
+    }
+
+    .error-message-small {
+      color: var.$danger-color;
+      font-size: var.$font-size-sm;
+      margin-top: var.$spacing-xs;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var.$spacing-md;
+    margin-top: var.$spacing-xl;
+
+    .btn-secondary {
+      background-color: var.$muted-color;
+      color: var.$text-color-light;
+      &:hover {
+        background-color: color.adjust(var.$muted-color, $lightness: -10%);
+      }
+    }
+
+    // .btn-primary {
+    //   // Inherits from base.scss
+    // }
+  }
+}
+
+@media (max-width: 768px) {
+  .expense-form-page-container {
+    padding: var.$spacing-md;
+  }
+
+  .expense-form-card {
+    padding: var.$spacing-lg;
+
+    h2 {
+      font-size: var.$font-size-xl;
+      margin-bottom: var.$spacing-lg;
+    }
+  }
+
+  .expense-form .form-actions {
+    flex-direction: column;
+    .btn {
+      width: 100%;
+    }
+  }
+}

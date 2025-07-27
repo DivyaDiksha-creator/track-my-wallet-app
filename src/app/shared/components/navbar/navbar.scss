@@ -1,0 +1,49 @@
+@use "sass:color";
+@use '../../../shared/styles/variables' as var;
+@use '../../../shared/styles/mixins' as mixins;
+
+.navbar {
+  background-color: var.$primary-color-dark;
+  color: var.$text-color-light;
+  padding: var.$spacing-md var.$spacing-xl;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var.$shadow-md;
+}
+
+.logo {
+  font-size: var.$font-size-xl;
+  font-weight: 700;
+  color: var.$accent-color;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var.$spacing-lg;
+}
+
+.nav-links li a {
+  color: var.$text-color-light;
+  text-decoration: none;
+  font-weight: 500;
+  padding: var.$spacing-sm var.$spacing-md;
+  border-radius: var.$border-radius-sm;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var.$primary-color;
+    color: var.$surface-color;
+  }
+
+  &.active {
+    background-color: var.$primary-color;
+    color: var.$surface-color;
+    font-weight: 600;
+  }
+}

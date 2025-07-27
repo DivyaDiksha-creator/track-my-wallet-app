@@ -1,0 +1,141 @@
+@use '../../../shared/styles/variables' as var_scss;
+
+
+.quote-container {
+  padding: var_scss.$spacing-lg;
+  border-radius: var_scss.$border-radius-lg;
+  background-color: var_scss.$surface-color;
+  box-shadow: var_scss.$shadow-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Center content horizontally
+  gap: var_scss.$spacing-md;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: var_scss.$spacing-md auto;
+}
+
+.quote-header {
+  h3 {
+    font-size: var_scss.$font-size-xl; // Matches the size in the image
+    font-weight: 600;
+    color: var_scss.$primary-color-dark; // Matches existing palette
+    margin: 0 0 var_scss.$spacing-sm 0; // Slightly more margin at the bottom
+  }
+}
+
+.quote-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var_scss.$spacing-sm; // Space between icon, text, and author
+
+  .large-quote-icon {
+    font-size: var_scss.$font-size-xxxl; // Larger size for the decorative icon
+    color: var_scss.$primary-color; // Green color for the icon
+    margin-bottom: var_scss.$spacing-sm; // Space between icon and quote text
+  }
+
+  .quote-text {
+    font-size: var_scss.$font-size-lg; // Matches the font size in the image
+    font-style: italic;
+    color: var_scss.$text-color-dark;
+    line-height: 1.5;
+    margin: 0; // Remove default paragraph margin
+  }
+
+  .quote-author {
+    font-size: var_scss.$font-size-base;
+    color: var_scss.$muted-color;
+    font-weight: 500;
+    margin-top: 0;
+  }
+}
+
+/* Styles for refresh-button are commented out as per HTML change.
+   Uncomment if you add the button back.
+.refresh-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var_scss.$spacing-xs;
+  padding: var_scss.$spacing-sm var_scss.$spacing-md;
+  background-color: var_scss.$primary-color;
+  color: var_scss.$text-color-light;
+  border: none;
+  border-radius: var_scss.$border-radius-md;
+  cursor: pointer;
+  font-size: var_scss.$font-size-base;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var_scss.$primary-color-dark;
+    box-shadow: var_scss.$shadow-sm;
+  }
+
+  &:active {
+    background-color: var_scss.$primary-color-dark;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .material-icons {
+    font-size: var_scss.$font-size-xl;
+  }
+}
+*/
+
+.quote-message {
+  text-align: center;
+  font-size: var_scss.$font-size-base;
+  color: var_scss.$muted-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var_scss.$spacing-xs;
+  width: 100%;
+
+  &.loading-message {
+    color: var_scss.$primary-color;
+  }
+
+  &.error-message {
+    color: var_scss.$danger-color;
+    font-weight: 500;
+    background-color: rgba(var_scss.$danger-color, 0.1);
+    padding: var_scss.$spacing-xs var_scss.$spacing-md;
+    border-radius: var_scss.$border-radius-sm;
+    border: 1px solid var_scss.$danger-color;
+  }
+
+  .loading-spinner {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+  .quote-container {
+    padding: var_scss.$spacing-md;
+    margin: var_scss.$spacing-md auto;
+  }
+
+  .quote-header {
+    h3 {
+      font-size: var_scss.$font-size-lg;
+    }
+  }
+
+  .quote-content {
+    .large-quote-icon {
+      font-size: var_scss.$font-size-xxl; // Adjust size for smaller screens
+    }
+    .quote-text {
+      font-size: var_scss.$font-size-base;
+    }
+  }
+}

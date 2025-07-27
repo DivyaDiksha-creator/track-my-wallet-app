@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './shared/components/navbar/navbar'; 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
-export class App {
-  protected title = 'track-my-wallet-app';
+export class AppComponent {
+  title = 'track-my-wallet-app';
 }

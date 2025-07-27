@@ -1,0 +1,77 @@
+<div class="auth-page-container">
+  <div class="auth-welcome-section bg-gradient-accent"> <div class="welcome-content">
+      <h1>Start Your Financial Journey Today!</h1>
+      <p class="quote">"The journey of a thousand miles begins with a single step towards financial freedom."</p>
+      <p class="author">- Inspired by Lao Tzu</p>
+      <div class="logo-placeholder">
+        <span class="material-icons">trending_up</span>
+        <span class="logo-text">Track</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-section">
+    <div class="auth-card app-card">
+      <h2 class="text-center mb-lg">Create Your Account</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" formControlName="username" placeholder="Enter your username" required>
+          <div *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.dirty || registerForm.get('username')?.touched)" class="error-message-inline">
+            <div *ngIf="registerForm.get('username')?.errors?.['required']">Username is required.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" placeholder="Enter your email" required>
+          <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)" class="error-message-inline">
+            <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</div>
+            <div *ngIf="registerForm.get('email')?.errors?.['email']">Enter a valid email address.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password" placeholder="Choose a strong password" required>
+          <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)" class="error-message-inline">
+            <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</div>
+            <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Re-enter your password" required>
+          <div *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)" class="error-message-inline">
+            <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirm Password is required.</div>
+          </div>
+        </div>
+
+        <div *ngIf="registerForm.errors?.['passwordsMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)" class="error-message mt-md">
+          Passwords do not match.
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-lg" [disabled]="registerForm.invalid || isLoading">
+          {{ isLoading ? 'Registering...' : 'Register' }}
+        </button>
+      </form>
+
+      <p class="link-text text-center mt-lg">
+        Already have an account? <a routerLink="/login">Login here</a>
+      </p>
+
+      <!-- Display success message -->
+      <div *ngIf="successMessage" class="success-message mt-md">
+        {{ successMessage }}
+      </div>
+
+      <!-- Display error message -->
+      <div *ngIf="errorMessage" class="error-message mt-md">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>

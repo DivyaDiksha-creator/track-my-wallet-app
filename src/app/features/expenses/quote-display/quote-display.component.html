@@ -1,0 +1,20 @@
+<div class="quote-container">
+  <div class="quote-header">
+    <h3>Quote of the Day</h3>
+  </div>
+
+  <div *ngIf="isLoading" class="quote-message loading-message">
+    <span class="material-icons loading-spinner">loop</span> Loading quote...
+  </div>
+
+  <div *ngIf="error" class="quote-message error-message">
+    <span class="material-icons">error_outline</span> {{ error }}
+  </div>
+
+  <div *ngIf="quote && !isLoading && !error" class="quote-content">
+    <span class="material-icons large-quote-icon">format_quote</span>
+    <p class="quote-text">{{ quote.text }}</p>
+    <p class="quote-author">- {{ quote.author }}</p>
+  </div>
+
+  </div>

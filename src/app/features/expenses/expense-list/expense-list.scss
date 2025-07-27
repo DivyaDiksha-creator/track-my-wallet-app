@@ -1,0 +1,332 @@
+@use "sass:color";
+@use '../../../shared/styles/variables' as var_scss;
+
+.expense-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: var_scss.$spacing-xl;
+  background-color: var_scss.$background-color;
+  width: 100%; /* Ensure it takes full width */
+  min-height: 100vh; /* Optional: Make container at least full viewport height */
+}
+
+.page-header {
+  width: 100%;
+  max-width: 1200px; /* Constrain width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var_scss.$spacing-lg;
+  margin-bottom: var_scss.$spacing-xl;
+  padding: 0 var_scss.$spacing-md; /* Add horizontal padding */
+
+  h2 {
+    margin: 0;
+    font-size: var_scss.$font-size-xxl;
+    color: var_scss.$primary-color-dark;
+  }
+
+  .btn-primary {
+    display: flex;
+    align-items: center;
+    gap: var_scss.$spacing-xs;
+    padding: var_scss.$spacing-sm var_scss.$spacing-md;
+    font-size: var_scss.$font-size-base;
+    background-color: var_scss.$primary-color;
+    color: var_scss.$text-color-light;
+    border: none;
+    border-radius: var_scss.$border-radius-md;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: var_scss.$primary-color-dark;
+    }
+
+    .material-icons {
+      font-size: var_scss.$font-size-lg;
+    }
+  }
+}
+
+.expense-dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column by default */
+  gap: var_scss.$spacing-xl;
+  width: 100%; /* Take full width of parent */
+  max-width: 1200px; /* Constrain overall layout width */
+  margin-top: var_scss.$spacing-xl;
+  padding: 0 var_scss.$spacing-md; /* Add horizontal padding for smaller screens */
+}
+
+.app-card {
+  background-color: var_scss.$surface-color;
+  border-radius: var_scss.$border-radius-lg;
+  box-shadow: var_scss.$shadow-md;
+  padding: var_scss.$spacing-lg;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Important for preventing content from spilling out */
+}
+
+.calendar-slider {
+  display: flex; /* Make it a flex container */
+  flex-direction: row; /* Arrange children horizontally */
+  flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  gap: var_scss.$spacing-md;
+  padding: var_scss.$spacing-md;
+  box-shadow: var_scss.$shadow-md;
+  /* Remove min-width: fit-content; if it's causing issues. Let flexbox handle width. */
+  width: 100%; /* Ensure it takes full available width within its grid area */
+
+  .btn-icon {
+    background: none;
+    border: none;
+    color: var_scss.$primary-color-dark;
+    font-size: var_scss.$font-size-xl;
+    cursor: pointer;
+    border-radius: var_scss.$border-radius-sm;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px; /* Ensure a decent click area */
+    min-height: 40px;
+
+    &:hover {
+      background-color: color.adjust(var_scss.$primary-color-light, $alpha: -0.9);
+      color: var_scss.$primary-color;
+    }
+
+    .material-icons {
+      font-size: var_scss.$font-size-xxl;
+      line-height: 1;
+    }
+  }
+
+  .current-period-display {
+    font-size: var_scss.$font-size-xl;
+    font-weight: 600;
+    color: var_scss.$primary-color-dark;
+    white-space: nowrap; /* Keep month/year on one line */
+    text-align: center;
+    padding: 0 var_scss.$spacing-sm;
+  }
+}
+
+.spending-graph-card {
+  h3 {
+    text-align: center;
+    margin-bottom: var_scss.$spacing-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var_scss.$spacing-sm;
+    color: var_scss.$primary-color-dark;
+  }
+
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .no-chart-data-message {
+    text-align: center;
+    color: var_scss.$muted-color;
+    padding: var_scss.$spacing-md;
+    border: 2px dashed var_scss.$border-color;
+    border-radius: var_scss.$border-radius-md;
+    margin-top: var_scss.$spacing-lg;
+  }
+}
+
+.expense-list-card {
+  h3 {
+    text-align: center;
+    margin-bottom: var_scss.$spacing-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var_scss.$spacing-sm;
+    color: var_scss.$primary-color-dark;
+  }
+
+  .table-container {
+    overflow-x: auto; /* Allows horizontal scrolling if table content overflows */
+    width: 100%; /* Ensure container takes full width of its parent */
+  }
+
+  .data-table {
+    width: 100%; /* Ensure table takes full width of its container */
+    border-collapse: collapse;
+
+    th, td {
+      padding: var_scss.$spacing-sm;
+      border-bottom: 1px solid var_scss.$border-color;
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap; /* Prevent content from wrapping in cells by default */
+    }
+
+    th {
+      position: relative;
+      cursor: pointer;
+      padding-right: var_scss.$spacing-lg;
+      background-color: var_scss.$primary-color;
+      color: var_scss.$text-color-light;
+      font-weight: 600;
+      /* min-width: needed for table columns to prevent squishing on small screens */
+      &.date-column { min-width: 100px; }
+      &.description-column { min-width: 150px; }
+      &.amount-column { min-width: 80px; }
+      &.category-column { min-width: 120px; }
+
+
+      .sort-icon {
+        position: absolute;
+        right: var_scss.$spacing-sm;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: var_scss.$font-size-md; /* Using your new md font size */
+        color: var_scss.$text-color-light;
+      }
+
+      &:hover {
+        background-color: color.adjust(var_scss.$primary-color, $lightness: 5%);
+      }
+    }
+
+    td {
+      color: var_scss.$text-color-dark;
+    }
+  }
+
+  .actions-column {
+    display: flex;
+    gap: var_scss.$spacing-xs;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    min-width: 120px;
+  }
+
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: var_scss.$font-size-sm;
+    min-width: unset;
+    border-radius: var_scss.$border-radius-sm;
+
+    &.btn-info {
+      background-color: var_scss.$info-color;
+      color: var_scss.$text-color-light;
+      &:hover {
+        background-color: color.adjust(var_scss.$info-color, $lightness: -10%);
+      }
+    }
+    &.btn-danger {
+      background-color: var_scss.$danger-color;
+      color: var_scss.$text-color-light;
+      &:hover {
+        background-color: color.adjust(var_scss.$danger-color, $lightness: -10%);
+      }
+    }
+  }
+
+  .no-data-message {
+    background-color: color.adjust(var_scss.$muted-color, $alpha: -0.95);
+    color: var_scss.$muted-color;
+    border: 2px dashed var_scss.$border-color;
+    padding: var_scss.$spacing-lg;
+    border-radius: var_scss.$border-radius-md;
+    text-align: center;
+    margin-top: var_scss.$spacing-lg;
+  }
+}
+
+@media (min-width: 768px) {
+  .expense-dashboard-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "calendar calendar"
+      "graph list";
+    padding: 0;
+  }
+
+  .calendar-slider {
+    grid-area: calendar;
+    margin-bottom: 0;
+  }
+
+  .spending-graph-card {
+    grid-area: graph;
+  }
+
+  .expense-list-card {
+    grid-area: list;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-header {
+    flex-direction: column;
+    align-items: center;
+    gap: var_scss.$spacing-md;
+    padding: 0 var_scss.$spacing-md;
+
+    h2 {
+      text-align: center;
+      width: 100%;
+    }
+
+    .btn-primary {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .expense-dashboard-layout {
+    padding: 0 var_scss.$spacing-md;
+  }
+
+  .calendar-slider {
+    flex-direction: row !important; /* Explicitly ensure horizontal */
+    flex-wrap: nowrap !important; /* Explicitly prevent wrapping */
+    justify-content: center;
+    align-items: center;
+    gap: var_scss.$spacing-sm;
+    padding: var_scss.$spacing-sm;
+    overflow-x: auto; /* Allow scrolling if items are too wide */
+
+    .btn-icon {
+      min-width: 32px;
+      min-height: 32px;
+      .material-icons {
+        font-size: var_scss.$font-size-lg;
+      }
+    }
+
+    .current-period-display {
+      font-size: var_scss.$font-size-md;
+    }
+  }
+
+  .actions-column {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var_scss.$spacing-sm;
+    min-width: unset;
+  }
+
+  .data-table {
+    th, td {
+      padding: var_scss.$spacing-xs;
+      font-size: var_scss.$font-size-sm;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+<div class="category-list-container app-card">
+  <h2 class="text-center">Manage Categories</h2>
+
+  <div *ngIf="isLoading" class="loading-message text-center">Loading categories...</div>
+  <div *ngIf="errorMessage" class="error-message mt-md text-center">{{ errorMessage }}</div>
+
+  <div *ngIf="!isLoading && categories.length === 0 && !errorMessage" class="no-data-message text-center">
+    <p>No categories found. Click 'Add New Category' to get started!</p>
+  </div>
+
+  <div class="actions text-right mb-md">
+    <button class="btn btn-primary" [routerLink]="['/categories/add']">Add New Category</button>
+  </div>
+
+  <div *ngIf="categories.length > 0" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Category Name</th>
+          <th>Type</th> <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories" [class.is-default]="category.isDefault"> <td>{{ category.name }}</td>
+          <td>
+            <span class="category-type-badge" [ngClass]="{'badge-default': category.isDefault, 'badge-custom': !category.isDefault}">
+              {{ category.isDefault ? 'Default' : 'Custom' }}
+            </span>
+          </td> <td class="text-right">
+            <ng-container *ngIf="!category.isDefault; else defaultActions"> <button class="btn btn-text" [routerLink]="['/categories/edit', category.id]">Edit</button>
+              <button class="btn btn-text btn-danger" (click)="onDeleteCategory(category.id)">Delete</button>
+            </ng-container>
+            <ng-template #defaultActions>
+              <span class="text-muted">System Category</span> </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

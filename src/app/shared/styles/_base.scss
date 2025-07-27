@@ -1,0 +1,54 @@
+@use 'variables' as var;
+@use 'mixins' as mixins;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var.$font-family-base;
+  font-size: var.$font-size-base;
+  line-height: 1.6;
+  color: var.$text-color-dark;
+  background-color: var.$background-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var.$primary-color-dark;
+  margin-top: 0;
+  margin-bottom: var.$spacing-md;
+  line-height: 1.2;
+}
+
+h1 { font-size: var.$font-size-xxxl; font-weight: 700; }
+h2 { font-size: var.$font-size-xxl; font-weight: 600; }
+h3 { font-size: var.$font-size-xl; font-weight: 500; }
+h4 { font-size: var.$font-size-lg; font-weight: 500; }
+h5 { font-size: var.$font-size-base; font-weight: 500; }
+h6 { font-size: var.$font-size-sm; font-weight: 500; }
+
+p {
+  margin-top: 0;
+  margin-bottom: var.$spacing-sm;
+}
+
+a {
+  color: var.$primary-color;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  &:hover {
+    color: var.$primary-color-light;
+    text-decoration: underline;
+  }
+}
+
+.app-card {
+  background-color: var.$surface-color;
+  border-radius: var.$border-radius-lg;
+  box-shadow: var.$shadow-md;
+  padding: var.$spacing-xl;
+  display: flex;
+  flex-direction: column;
+  @include mixins.card-hover-effect;
+}

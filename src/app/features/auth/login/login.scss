@@ -1,0 +1,100 @@
+@use "sass:color";
+@use '../../../shared/styles/_variables.scss'as variables;
+@use '../../../shared/styles/_mixins.scss' as mixins;
+
+
+.auth-page-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.auth-welcome-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-light);
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-light) 100%);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+
+  .welcome-content {
+    z-index: 1;
+    position: relative;
+  }
+
+  h1 {
+    font-size: var(--font-size-xxxl);
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-light);
+  }
+
+  .quote {
+    font-style: italic;
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    color: rgba(variables.$text-color-light, 0.8);
+  }
+
+  .author {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-xl);
+    color: rgba(variables.$text-color-light, 0.7);
+  }
+
+  .logo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-xxl);
+    font-weight: 700;
+    color: var(--color-accent);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    .material-icons {
+      font-size: var(--font-size-xxl);
+    }
+  }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.auth-form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  background-color: var(--color-background);
+
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: var(--spacing-lg);
+  }
+}
+
+.auth-card {
+  @extend .app-card !optional;
+  max-width: 450px;
+  width: 100%;
+  padding: var(--spacing-xxl);
+
+  h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-primary-dark);
+  }
+
+  .link-text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-lg);
+  }
+}

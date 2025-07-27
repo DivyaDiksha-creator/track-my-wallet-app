@@ -1,0 +1,18 @@
+<nav class="navbar">
+  <div class="logo">Track My Wallet</div>
+  <ul class="nav-links">
+    <!-- Links visible ONLY when logged in -->
+    <ng-container *ngIf="isLoggedIn$ | async">
+      <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li><a routerLink="/expenses" routerLinkActive="active">Expenses</a></li>
+      <li><a routerLink="/categories" routerLinkActive="active">Categories</a></li>
+      <li><a (click)="logout()">Logout</a></li>
+    </ng-container>
+
+    <!-- Links visible ONLY when logged out -->
+    <ng-container *ngIf="!(isLoggedIn$ | async)">
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
+    </ng-container>
+  </ul>
+</nav>

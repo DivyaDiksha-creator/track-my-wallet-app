@@ -1,0 +1,123 @@
+
+<main class="expense-page-container">
+  <div class="page-header">
+    <h2>Manage Your Expenses</h2>
+    <button class="btn btn-primary" routerLink="/expenses/add">
+      <span class="material-icons">add_circle_outline</span> Add New Expense
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-message text-center mt-md">Loading expenses...</div>
+  <div *ngIf="error" class="error-message text-center mt-md">{{ error }}</div>
+
+  <div class="expense-dashboard-layout" *ngIf="!isLoading && !error">
+
+    <!-- Calendar Slider - Remains at the top, centered -->
+    <div class="calendar-slider app-card">
+      <button class="btn btn-icon" (click)="goToPreviousYear()" title="Previous Year">
+        <span class="material-icons">keyboard_double_arrow_left</span>
+      </button>
+      <button class="btn btn-icon" (click)="goToPreviousMonth()" title="Previous Month">
+        <span class="material-icons">keyboard_arrow_left</span>
+      </button>
+      <span class="current-period-display">{{ displayMonthYear }}</span>
+      <button class="btn btn-icon" (click)="goToNextMonth()" title="Next Month">
+        <span class="material-icons">keyboard_arrow_right</span>
+      </button>
+      <button class="btn btn-icon" (click)="goToNextYear()" title="Next Year">
+        <span class="material-icons">keyboard_double_arrow_right</span>
+      </button>
+    </div>
+
+    <!-- Spending Trends by Category Card -->
+    <div class="spending-graph-card app-card">
+      <h3><span class="material-icons">trending_up</span> Spending Trends by Category</h3>
+      <div class="chart-container">
+        <canvas baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType"
+          [legend]="barChartLegend"
+          (chartClick)="chartClicked($event)"
+          (chartHover)="chartHovered($event)">
+        </canvas>
+      </div>
+      <p class="no-chart-data-message" *ngIf="shouldShowNoChartDataMessage()">
+        No spending data available for the chart. Add some expenses!
+      </p>
+    </div>
+
+    <!-- Currency Converter Card -->
+    <app-currency-converter class="currency-converter-card app-card"></app-currency-converter>
+
+    <!-- NEW: Quote of the Day Card -->
+    <div class="quote-card app-card">
+      <h3><span class="material-icons">format_quote</span> Quote of the Day</h3>
+      <div class="quote-content" *ngIf="currentQuote">
+        <p class="quote-text">"{{ currentQuote.text }}"</p>
+        <p class="quote-author">- {{ currentQuote.author }}</p>
+      </div>
+      <div class="quote-content" *ngIf="!currentQuote">
+        <p class="quote-text">Loading a wise quote...</p>
+      </div>
+    </div>
+
+    <!-- Your Recent Expenses List Card - Now takes full width below -->
+    <div class="expense-list-card app-card">
+      <h3><span class="material-icons">list_alt</span> Your Recent Expenses</h3>
+      <div *ngIf="expenses.length > 0; else noExpenses" class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th (click)="sortExpenses('date')" class="date-column">
+                Date
+                <span class="material-icons sort-icon"
+                      *ngIf="currentSortColumn === 'date'">
+                  {{ currentSortDirection === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down' }}
+                </span>
+              </th>
+              <th (click)="sortExpenses('description')" class="description-column">
+                Description
+                <span class="material-icons sort-icon"
+                      *ngIf="currentSortColumn === 'description'">
+                  {{ currentSortDirection === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down' }}
+                </span>
+              </th>
+              <th (click)="sortExpenses('amount')" class="amount-column">
+                Amount
+                <span class="material-icons sort-icon"
+                      *ngIf="currentSortColumn === 'amount'">
+                  {{ currentSortDirection === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down' }}
+                </span>
+              </th>
+              <th (click)="sortExpenses('categoryName')" class="category-column">
+                Category
+                <span class="material-icons sort-icon"
+                      *ngIf="currentSortColumn === 'categoryName'">
+                  {{ currentSortDirection === 'asc' ? 'arrow_drop_up' : 'arrow_drop_down' }}
+                </span>
+              </th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let expense of expenses">
+              <td>{{ expense.date | date:'mediumDate' }}</td>
+              <td>{{ expense.description }}</td>
+              <td>{{ expense.amount | currency:'USD':'symbol':'1.2-2' }}</td>
+              <td>{{ expense.categoryName }}</td>
+              <td class="text-right actions-column">
+                <button class="btn btn-sm btn-info" [routerLink]="['/expenses/edit', expense.id!]">Edit</button>
+                <button class="btn btn-sm btn-danger" (click)="deleteExpense(expense.id!)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noExpenses>
+        <p class="no-data-message text-center mt-lg">No expenses recorded yet. Click "Add New Expense" to get started!</p>
+      </ng-template>
+    </div>
+
+  </div>
+</main>

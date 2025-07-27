@@ -1,0 +1,122 @@
+$primary-color: #388E3C;
+$primary-color-light: #66BB6A;
+$primary-color-dark: #2E7D32;
+
+$accent-color: #FFC107;
+$accent-color-dark: #FFB300;
+
+$background-color: #F8F9FA;
+$surface-color: #FFFFFF;
+$text-color-dark: #212529;
+$text-color-light: #F8F9FA;
+$border-color: #DEE2E6;
+
+$success-color: #28A745;
+$warning-color: #FFC107;
+$danger-color: #DC3545;
+$info-color: #17A2B8;
+$muted-color: #6C757D;
+
+// ADDED $spacing-xxs here
+$spacing-xxs: 2px; // A very small spacing unit, you can adjust this value if 4px for $spacing-xs is enough for your needs.
+                   // I'm setting it to 2px for distinction from $spacing-xs (which is 4px in your current file).
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+$font-family-base: 'Roboto', sans-serif;
+$font-size-base: 1rem;
+$font-size-sm: 0.875rem;
+$font-size-md: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.5rem;
+$font-size-xxl: 2rem;
+$font-size-xxxl: 2.75rem;
+
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+// ADDED Input specific variables here
+$input-bg-color: #FDFDFD; // Default light background for inputs
+$input-border-color: #E0E0E0; // Default light grey border
+$input-focus-border-color: #66BB6A; // Primary color light for focus state
+$border-radius-circle: 50%; // Added for completeness, useful for avatars/buttons
+
+// ADDED Z-index variables here (common for layered elements)
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+
+:root {
+  --color-primary: #{$primary-color};
+  --color-primary-light: #{$primary-color-light};
+  --color-primary-dark: #{$primary-color-dark};
+
+  --color-accent: #{$accent-color};
+  --color-accent-dark: #{$accent-color-dark};
+
+  --color-background: #{$background-color};
+  --color-surface: #{$surface-color};
+  --color-text-dark: #{$text-color-dark};
+  --color-text-light: #{$text-color-light};
+  --color-border: #{$border-color};
+
+  --color-success: #{$success-color};
+  --color-warning: #{$warning-color};
+  --color-danger: #{$danger-color};
+  --color-info: #{$info-color};
+  --color-muted: #{$muted-color};
+
+  // Ensure CSS variables for the new SCSS variables are also added if you intend to use them via CSS custom properties
+  --spacing-xxs: #{$spacing-xxs}; // Added
+  --spacing-xs: #{$spacing-xs};
+  --spacing-sm: #{$spacing-sm};
+  --spacing-md: #{$spacing-md};
+  --spacing-lg: #{$spacing-lg};
+  --spacing-xl: #{$spacing-xl};
+  --spacing-xxl: #{$spacing-xxl};
+
+  --font-family-base: #{$font-family-base};
+  --font-size-base: #{$font-size-base};
+  --font-size-sm: #{$font-size-sm};
+  --font-size-lg: #{$font-size-lg};
+  --font-size-xl: #{$font-size-xl};
+  --font-size-xxl: #{$font-size-xxl};
+  --font-size-xxxl: #{$font-size-xxxl};
+
+  --border-radius-sm: #{$border-radius-sm};
+  --border-radius-md: #{$border-radius-md};
+  --border-radius-lg: #{$border-radius-lg};
+  --border-radius-circle: #{$border-radius-circle}; // Added
+
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --shadow-lg: #{$shadow-lg};
+
+  // Ensure CSS variables for the new input-specific SCSS variables are also added
+  --input-bg-color: #{$input-bg-color}; // Added
+  --input-border-color: #{$input-border-color}; // Added
+  --input-focus-border-color: #{$input-focus-border-color}; // Added
+
+  // Z-index CSS variables (optional, but good if you want to use them in JS or dynamically)
+  --z-index-dropdown: #{$z-index-dropdown};
+  --z-index-sticky: #{$z-index-sticky};
+  --z-index-fixed: #{$z-index-fixed};
+  --z-index-modal-backdrop: #{$z-index-modal-backdrop};
+  --z-index-modal: #{$z-index-modal};
+  --z-index-popover: #{$z-index-popover};
+  --z-index-tooltip: #{$z-index-tooltip};
+}
